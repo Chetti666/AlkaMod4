@@ -19,13 +19,17 @@ import com.alka.wallet.ui.theme.AlkaWalletTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onNavigateToSend: () -> Unit = {},
+    onNavigateToRequest: () -> Unit = {},
+    onNavigateToProfile: () -> Unit = {}
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Hola, Usuario") },
                 actions = {
-                    IconButton(onClick = { /* TODO: Perfil */ }) {
+                    IconButton(onClick = onNavigateToProfile) {
                         Icon(Icons.Default.AccountCircle, contentDescription = "Perfil")
                     }
                 }
@@ -68,7 +72,10 @@ fun HomeScreen() {
 
             // Sección de Acciones Rápidas
             item {
-                QuickActions()
+                QuickActions(
+                    onSendClick = onNavigateToSend,
+                    onIngresarClick = onNavigateToRequest
+                )
             }
 
             // Sección de Movimientos Recientes (Simulada)
@@ -120,24 +127,27 @@ fun BalanceCard() {
 }
 
 @Composable
-fun QuickActions() {
+fun QuickActions(
+    onSendClick: () -> Unit = {},
+    onIngresarClick: () -> Unit = {}
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        ActionButton(icon = Icons.Default.Send, label = "Enviar")
-        ActionButton(icon = Icons.Default.Add, label = "Ingresar")
-        ActionButton(icon = Icons.Default.ShoppingCart, label = "Tarjetas")
+        ActionButton(icon = Icons.Default.Send, label = "Enviar", onClick = onSendClick)
+        ActionButton(icon = Icons.Default.Add, label = "Solicitar", onClick = onIngresarClick)
+        ActionButton(icon = Icons.Default.ShoppingCart, label = "Tarjetas", onClick = {})
     }
 }
 
 @Composable
-fun ActionButton(icon: ImageVector, label: String) {
+fun ActionButton(icon: ImageVector, label: String, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         FilledTonalIconButton(
-            onClick = { /* TODO */ },
+            onClick = onClick,
             modifier = Modifier.size(56.dp)
         ) {
             Icon(icon, contentDescription = label)

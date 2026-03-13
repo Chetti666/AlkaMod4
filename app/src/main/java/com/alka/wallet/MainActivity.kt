@@ -11,6 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.alka.wallet.ui.auth.AuthScreen
 import com.alka.wallet.ui.home.HomeScreen
+import com.alka.wallet.ui.profile.ProfileScreen
+import com.alka.wallet.ui.request.RequestMoneyScreen
+import com.alka.wallet.ui.send.SendMoneyScreen
 import com.alka.wallet.ui.theme.AlkaWalletTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,17 +24,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AlkaWalletTheme {
-                // Estado simple para simular la navegación
-                var isLoggedIn by remember { mutableStateOf(false) }
+                // Sistema de navegación simple basado en estados
+                var currentScreen by remember { mutableStateOf("auth") }
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    if (isLoggedIn) {
-                        HomeScreen()
-                    } else {
-                        AuthScreen(onLoginSuccess = { isLoggedIn = true })
+                    when (currentScreen) {
+                        "auth" -> AuthScreen(onLoginSuccess = { currentScreen = "home" })
+                        "home" -> HomeScreen(
+                            onNavigateToSend = { currentScreen = "send" },
+                            onNavigateToRequest = { currentScreen = "request" },
+                            onNavigateToProfile = { currentScreen = "profile" }
+                        )
+                        "send" -> SendMoneyScreen(onBack = { currentScreen = "home" })
+                        "request" -> RequestMoneyScreen(onBack = { currentScreen = "home" })
+                        "profile" -> ProfileScreen(onBack = { currentScreen = "home" })
                     }
                 }
             }
