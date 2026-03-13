@@ -8,5 +8,7 @@ Alka Wallet es una billetera digital enfocada en el diseño y la estructura visu
 - Definir la estructura visual de cada pantalla.
 - Asegurar que el comportamiento visual de los componentes sea el adecuado.
 
-## Pantallas (Pendiente de especificaciones)
-*A medida que se proporcionen los requerimientos, se listarán y detallarán aquí.*
+## Pantallas
+1. **Splash Screen (Pantalla de inicio)**
+   - **Función:** Aparece al abrir la app por un tiempo corto (2-3 segundos). Muestra el logo o bienvenida.
+   - **Diseño:** Logo o nombre de la aplicación, con una animación o un fondo de color.
