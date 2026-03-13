@@ -2,7 +2,7 @@
 <resources>
     <!-- Base application theme -->
     <style name="Theme.AlkaWallet" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="android:colorPrimary">@color/primary_blue</item>
     </style>
 
     <!-- Splash Screen theme -->
