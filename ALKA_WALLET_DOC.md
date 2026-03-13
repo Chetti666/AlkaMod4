@@ -26,3 +26,5 @@ Alka Wallet es una billetera digital enfocada en el diseño y la estructura visu
 8. **Send Money (Pantalla para enviar dinero)**
    - Formulario para ingresar monto y destinatario.
    - Diálogo de confirmación de éxito tras el envío.
+9. **Request Money (Pantalla para solicitar dinero)**
+   - Formulario para ingresar monto y destinatario.
