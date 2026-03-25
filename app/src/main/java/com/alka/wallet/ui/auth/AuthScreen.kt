@@ -3,7 +3,6 @@ package com.alka.wallet.ui.auth
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,86 +12,38 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.alka.wallet.R
 import com.alka.wallet.ui.components.BackgroundWrapper
 import com.alka.wallet.ui.theme.AlkaWalletTheme
 
 @Composable
-fun AuthScreen(onLoginSuccess: () -> Unit) {
-    var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf("Iniciar Sesión", "Registrarse")
-    
-    // Determinamos el fondo según la pestaña seleccionada
-    val backgroundRes = if (selectedTab == 0) R.drawable.loginpage else R.drawable.signuppage
-
-    BackgroundWrapper(drawableResId = backgroundRes) {
+fun AuthScreen(
+    onLoginSuccess: () -> Unit,
+    onNavigateToSignup: () -> Unit = {}
+) {
+    BackgroundWrapper(drawableResId = R.drawable.loginpage) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(horizontal = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(48.dp))
-            
-            Text(
-                text = "Alka Wallet",
-                style = MaterialTheme.typography.headlineLarge,
-                color = Color.White,
-                fontWeight = FontWeight.Bold
+            Spacer(modifier = Modifier.height(275.dp))
+
+            LoginContent(
+                onLoginSuccess = onLoginSuccess,
+                onNavigateToSignup = onNavigateToSignup
             )
-            
-            Spacer(modifier = Modifier.height(32.dp))
-
-            TabRow(
-                selectedTabIndex = selectedTab,
-                containerColor = Color.Transparent,
-                contentColor = Color.White,
-                indicator = { tabPositions ->
-                    if (selectedTab < tabPositions.size) {
-                        TabRowDefaults.Indicator(
-                            modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
-                            color = Color.White
-                        )
-                    }
-                }
-            ) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index },
-                        text = { 
-                            Text(
-                                text = title,
-                                color = if (selectedTab == index) Color.White else Color.White.copy(alpha = 0.7f)
-                            ) 
-                        }
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Surface(
-                color = Color.Black.copy(alpha = 0.1f),
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    if (selectedTab == 0) {
-                        LoginContent(onLoginSuccess = onLoginSuccess)
-                    } else {
-                        SignupContent(onSignupComplete = {
-                            selectedTab = 0
-                        })
-                    }
-                }
-            }
         }
     }
 }
 
 @Composable
-fun LoginContent(onLoginSuccess: () -> Unit) {
+fun LoginContent(
+    onLoginSuccess: () -> Unit,
+    onNavigateToSignup: () -> Unit
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -100,133 +51,69 @@ fun LoginContent(onLoginSuccess: () -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(40.dp))
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Correo Electrónico", color = Color.White) },
+            label = { Text("Correo Electrónico") },
+            placeholder = { Text("ejemplo@mail.com") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.White.copy(alpha = 0.1f),
+                unfocusedContainerColor = Color.Transparent,
                 focusedBorderColor = Color.White,
                 unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.White.copy(alpha = 0.7f),
                 cursorColor = Color.White
             )
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Contraseña", color = Color.White) },
+            label = { Text("Contraseña") },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.White.copy(alpha = 0.1f),
+                unfocusedContainerColor = Color.Transparent,
                 focusedBorderColor = Color.White,
                 unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.White.copy(alpha = 0.7f),
                 cursorColor = Color.White
             )
         )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(220.dp))
         Button(
-            onClick = { 
+            onClick = {
                 if (email.isNotBlank() && password.isNotBlank()) {
                     onLoginSuccess()
                 }
             },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color.Black)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.White, 
+                contentColor = Color(0xFF1E88E5)
+            ),
+            shape = MaterialTheme.shapes.medium
         ) {
-            Text("Entrar")
+
         }
-    }
-}
+        Spacer(modifier = Modifier.height(40.dp))
+        TextButton(onClick = onNavigateToSignup) {
 
-@Composable
-fun SignupContent(onSignupComplete: () -> Unit) {
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Nombre Completo", color = Color.White) },
-            modifier = Modifier.fillMaxWidth(),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
-                cursorColor = Color.White
-            )
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Correo Electrónico", color = Color.White) },
-            modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
-                cursorColor = Color.White
-            )
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Contraseña", color = Color.White) },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
-                cursorColor = Color.White
-            )
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
-            label = { Text("Confirmar Contraseña", color = Color.White) },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
-                cursorColor = Color.White
-            )
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        Button(
-            onClick = { 
-                if (name.isNotBlank() && email.isNotBlank() && password.isNotBlank() && password == confirmPassword) {
-                    onSignupComplete()
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color.Black)
-        ) {
-            Text("Crear Cuenta")
         }
     }
 }
@@ -235,6 +122,9 @@ fun SignupContent(onSignupComplete: () -> Unit) {
 @Composable
 fun AuthScreenPreview() {
     AlkaWalletTheme {
-        AuthScreen(onLoginSuccess = {})
+        AuthScreen(
+            onLoginSuccess = {},
+            onNavigateToSignup = {}
+        )
     }
 }

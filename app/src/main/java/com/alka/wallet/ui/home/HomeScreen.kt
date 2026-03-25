@@ -15,113 +15,70 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.alka.wallet.R
+import com.alka.wallet.ui.components.BackgroundWrapper
 import com.alka.wallet.ui.theme.AlkaWalletTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onNavigateToSend: () -> Unit = {},
     onNavigateToRequest: () -> Unit = {},
     onNavigateToProfile: () -> Unit = {}
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Hola, Usuario") },
-                actions = {
-                    IconButton(onClick = onNavigateToProfile) {
-                        Icon(Icons.Default.AccountCircle, contentDescription = "Perfil")
-                    }
-                }
-            )
-        },
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Home, contentDescription = "Inicio") },
-                    label = { Text("Inicio") },
-                    selected = true,
-                    onClick = { }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.List, contentDescription = "Transacciones") },
-                    label = { Text("Movimientos") },
-                    selected = false,
-                    onClick = { }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Settings, contentDescription = "Ajustes") },
-                    label = { Text("Ajustes") },
-                    selected = false,
-                    onClick = { }
-                )
-            }
-        }
-    ) { innerPadding ->
-        LazyColumn(
+    // El PNG ya contiene el diseño de fondo, TopAppBar y la Tarjeta de Saldo
+    BackgroundWrapper(drawableResId = R.drawable.homepage) {
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+            verticalArrangement = Arrangement.Top
         ) {
-            // Sección de Saldo
-            item {
-                BalanceCard()
-            }
+            // Espacio para saltar el TopAppBar y el BalanceCard que ya están en el PNG
+            Spacer(modifier = Modifier.height(280.dp))
 
-            // Sección de Acciones Rápidas
-            item {
-                QuickActions(
-                    onSendClick = onNavigateToSend,
-                    onIngresarClick = onNavigateToRequest
-                )
-            }
+            // Botones invisibles sobre las acciones rápidas del PNG o botones estilizados
+            QuickActions(
+                onSendClick = onNavigateToSend,
+                onIngresarClick = onNavigateToRequest
+            )
 
-            // Sección de Movimientos Recientes (Simulada)
-            item {
-                Text(
-                    text = "Movimientos Recientes",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
+            Spacer(modifier = Modifier.height(40.dp))
+
+            // Lista de Movimientos (esta sí debe ser dinámica sobre el fondo)
+            Text(
+                text = "Movimientos Recientes",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black // Ajustado para visibilidad sobre blanco
+            )
+            
+            Spacer(modifier = Modifier.height(8.dp))
+
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(10) { index ->
+                    TransactionItem(index)
+                }
             }
             
-            items(5) { index ->
-                TransactionItem(index)
-            }
+            // Espacio para la barra de navegación que ya está en el PNG
+            Spacer(modifier = Modifier.height(60.dp))
         }
-    }
-}
-
-@Composable
-fun BalanceCard() {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-    ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                text = "Saldo Disponible",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-            Text(
-                text = "$ 12,540.00",
-                style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "**** **** **** 4582",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.7f)
-            )
+        
+        // Botón de perfil flotante sobre el icono del PNG
+        Box(modifier = Modifier.fillMaxSize()) {
+            IconButton(
+                onClick = onNavigateToProfile,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 40.dp, end = 16.dp)
+                    .size(48.dp)
+            ) {
+                // Dejamos el icono transparente o invisible si el PNG ya lo tiene
+                // Icon(Icons.Default.AccountCircle, contentDescription = "Perfil", tint = Color.Transparent)
+            }
         }
     }
 }
@@ -135,6 +92,7 @@ fun QuickActions(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
+        // Botones con fondo transparente para que se vea el PNG debajo
         ActionButton(icon = Icons.Default.Send, label = "Enviar", onClick = onSendClick)
         ActionButton(icon = Icons.Default.Add, label = "Solicitar", onClick = onIngresarClick)
         ActionButton(icon = Icons.Default.ShoppingCart, label = "Tarjetas", onClick = {})
@@ -148,7 +106,10 @@ fun ActionButton(icon: ImageVector, label: String, onClick: () -> Unit) {
     ) {
         FilledTonalIconButton(
             onClick = onClick,
-            modifier = Modifier.size(56.dp)
+            modifier = Modifier.size(56.dp),
+            colors = IconButtonDefaults.filledTonalIconButtonColors(
+                containerColor = Color.White.copy(alpha = 0.1f)
+            )
         ) {
             Icon(icon, contentDescription = label)
         }
@@ -161,30 +122,31 @@ fun TransactionItem(index: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .background(Color.White.copy(alpha = 0.8f), RoundedCornerShape(12.dp))
+            .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .background(Color.LightGray.copy(alpha = 0.3f), RoundedCornerShape(8.dp)),
+                .background(Color.LightGray.copy(alpha = 0.2f), RoundedCornerShape(8.dp)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 if (index % 2 == 0) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                 contentDescription = null,
-                tint = if (index % 2 == 0) Color.Red else Color(0xFF4CAF50)
+                tint = if (index % 2 == 0) Color(0xFFE53935) else Color(0xFF43A047)
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = "Transacción #$index", fontWeight = FontWeight.Medium)
-            Text(text = "Hoy, 12:45 PM", style = MaterialTheme.typography.bodySmall)
+            Text(text = "Transacción #$index", fontWeight = FontWeight.SemiBold, color = Color.Black)
+            Text(text = "Hoy, 12:45 PM", style = MaterialTheme.typography.bodySmall, color = Color.Gray)
         }
         Text(
             text = if (index % 2 == 0) "- $120.00" else "+ $450.00",
             fontWeight = FontWeight.Bold,
-            color = if (index % 2 == 0) Color.Red else Color(0xFF4CAF50)
+            color = if (index % 2 == 0) Color(0xFFE53935) else Color(0xFF43A047)
         )
     }
 }

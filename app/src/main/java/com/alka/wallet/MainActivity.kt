@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.alka.wallet.ui.auth.AuthScreen
+import com.alka.wallet.ui.auth.SignupScreen
 import com.alka.wallet.ui.home.HomeScreen
 import com.alka.wallet.ui.profile.ProfileScreen
 import com.alka.wallet.ui.request.RequestMoneyScreen
@@ -32,7 +33,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     when (currentScreen) {
-                        "auth" -> AuthScreen(onLoginSuccess = { currentScreen = "home" })
+                        "auth" -> AuthScreen(
+                            onLoginSuccess = { currentScreen = "profile" },
+                            onNavigateToSignup = { currentScreen = "signup" }
+                        )
+                        "signup" -> SignupScreen(
+                            onSignupComplete = { currentScreen = "home" },
+                            onBack = { currentScreen = "auth" }
+                        )
                         "home" -> HomeScreen(
                             onNavigateToSend = { currentScreen = "send" },
                             onNavigateToRequest = { currentScreen = "request" },
