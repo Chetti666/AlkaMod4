@@ -93,7 +93,7 @@ fun LoginContent(
                 cursorColor = Color.White
             )
         )
-        Spacer(modifier = Modifier.height(80.dp))
+        Spacer(modifier = Modifier.height(60.dp))
         Button(
             onClick = {
                 onLoginSuccess()
@@ -109,7 +109,7 @@ fun LoginContent(
         ) {
 
         }
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         TextButton(onClick = onNavigateToSignup) {
 
         }
