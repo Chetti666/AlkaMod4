@@ -26,54 +26,56 @@ fun SendMoneyScreen(onBack: () -> Unit = {}) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
+                .padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Botón de volver sobre el icono del PNG
             Box(modifier = Modifier.fillMaxWidth()) {
                 IconButton(onClick = onBack, modifier = Modifier.padding(top = 8.dp)) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "Volver", tint = Color.White)
                 }
             }
 
-            // Espacio para saltar el diseño de cabecera del PNG
-            Spacer(modifier = Modifier.height(280.dp))
+            Spacer(modifier = Modifier.height(200.dp))
 
-            // Campo de Monto (Estilizado para encajar o ser minimalista)
             OutlinedTextField(
                 value = amount,
                 onValueChange = { amount = it },
-                placeholder = { Text("0.00", color = Color.Gray) },
-                prefix = { Text("$ ", color = Color.Black) },
+                placeholder = { Text("0.00", color = Color.White.copy(alpha = 0.5f)) },
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White.copy(alpha = 0.7f),
-                    unfocusedContainerColor = Color.White.copy(alpha = 0.5f),
-                    focusedBorderColor = Color(0xFF1E88E5)
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedBorderColor = Color.White.copy(alpha = 0.3f),
+                    unfocusedBorderColor = Color.White.copy(alpha = 0.3f),
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    cursorColor = Color.White
                 )
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            // Campo de Destinatario
             OutlinedTextField(
                 value = recipient,
                 onValueChange = { recipient = it },
-                placeholder = { Text("Nombre o correo", color = Color.Gray) },
+                placeholder = { Text("Nombre o correo", color = Color.White.copy(alpha = 0.5f)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White.copy(alpha = 0.7f),
-                    unfocusedContainerColor = Color.White.copy(alpha = 0.5f),
-                    focusedBorderColor = Color(0xFF1E88E5)
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedBorderColor = Color.White.copy(alpha = 0.3f),
+                    unfocusedBorderColor = Color.White.copy(alpha = 0.3f),
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    cursorColor = Color.White
                 )
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Botón de Confirmación
             Button(
                 onClick = { 
                     if (amount.isNotBlank() && recipient.isNotBlank()) {
@@ -83,9 +85,11 @@ fun SendMoneyScreen(onBack: () -> Unit = {}) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1E88E5))
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White.copy(alpha = 0.2f)
+                )
             ) {
-                Text("ENVIAR DINERO")
+                Text("ENVIAR DINERO", color = Color.White)
             }
 
             if (showConfirmation) {

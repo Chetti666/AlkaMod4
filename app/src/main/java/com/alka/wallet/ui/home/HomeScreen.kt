@@ -1,8 +1,8 @@
 package com.alka.wallet.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -25,96 +26,56 @@ fun HomeScreen(
     onNavigateToRequest: () -> Unit = {},
     onNavigateToProfile: () -> Unit = {}
 ) {
-    // El PNG ya contiene el diseño de fondo, TopAppBar y la Tarjeta de Saldo
     BackgroundWrapper(drawableResId = R.drawable.homepage) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Top
-        ) {
-            // Espacio para saltar el TopAppBar y el BalanceCard que ya están en el PNG
-            Spacer(modifier = Modifier.height(280.dp))
-
-            // Botones invisibles sobre las acciones rápidas del PNG o botones estilizados
-            QuickActions(
-                onSendClick = onNavigateToSend,
-                onIngresarClick = onNavigateToRequest
-            )
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            // Lista de Movimientos (esta sí debe ser dinámica sobre el fondo)
-            Text(
-                text = "Movimientos Recientes",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black // Ajustado para visibilidad sobre blanco
-            )
-            
-            Spacer(modifier = Modifier.height(8.dp))
-
-            LazyColumn(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                items(10) { index ->
-                    TransactionItem(index)
-                }
-            }
-            
-            // Espacio para la barra de navegación que ya está en el PNG
-            Spacer(modifier = Modifier.height(60.dp))
-        }
-        
-        // Botón de perfil flotante sobre el icono del PNG
         Box(modifier = Modifier.fillMaxSize()) {
-            IconButton(
+            QuickActionsOverlay(
+                onSendClick = onNavigateToSend,
+                onRequestClick = onNavigateToRequest,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .offset(y = 200.dp)
+            )
+            ProfileButtonOverlay(
                 onClick = onNavigateToProfile,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 40.dp, end = 16.dp)
-                    .size(48.dp)
-            ) {
-                // Dejamos el icono transparente o invisible si el PNG ya lo tiene
-                // Icon(Icons.Default.AccountCircle, contentDescription = "Perfil", tint = Color.Transparent)
-            }
+            )
         }
     }
 }
 
 @Composable
-fun QuickActions(
+fun QuickActionsOverlay(
     onSendClick: () -> Unit = {},
-    onIngresarClick: () -> Unit = {}
+    onRequestClick: () -> Unit = {},
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 32.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        // Botones con fondo transparente para que se vea el PNG debajo
-        ActionButton(icon = Icons.Default.Send, label = "Enviar", onClick = onSendClick)
-        ActionButton(icon = Icons.Default.Add, label = "Solicitar", onClick = onIngresarClick)
-        ActionButton(icon = Icons.Default.ShoppingCart, label = "Tarjetas", onClick = {})
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .clickable(onClick = onSendClick)
+        )
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .clickable(onClick = onRequestClick)
+        )
     }
 }
 
 @Composable
-fun ActionButton(icon: ImageVector, label: String, onClick: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        FilledTonalIconButton(
-            onClick = onClick,
-            modifier = Modifier.size(56.dp),
-            colors = IconButtonDefaults.filledTonalIconButtonColors(
-                containerColor = Color.White.copy(alpha = 0.1f)
-            )
-        ) {
-            Icon(icon, contentDescription = label)
-        }
-        Text(text = label, style = MaterialTheme.typography.labelMedium)
-    }
+fun ProfileButtonOverlay(
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.size(48.dp).clickable(onClick = onClick))
 }
 
 @Composable

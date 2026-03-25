@@ -28,7 +28,7 @@ fun ProfileScreen(onBack: () -> Unit = {}) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Botón de volver y Editar en la parte superior
@@ -49,7 +49,7 @@ fun ProfileScreen(onBack: () -> Unit = {}) {
             }
 
             // El PNG ya tiene el diseño de fondo de la cabecera
-            Spacer(modifier = Modifier.height(60.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             // Foto de Perfil (Superpuesta al diseño del PNG si es necesario)
             Box(
@@ -67,7 +67,7 @@ fun ProfileScreen(onBack: () -> Unit = {}) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(120.dp))
+            Spacer(modifier = Modifier.height(80.dp))
 
             // Campos de Información estilizados para el fondo blanco
             Surface(

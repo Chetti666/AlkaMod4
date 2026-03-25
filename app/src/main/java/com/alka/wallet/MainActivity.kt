@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     when (currentScreen) {
                         "auth" -> AuthScreen(
-                            onLoginSuccess = { currentScreen = "profile" },
+                            onLoginSuccess = { currentScreen = "home" },
                             onNavigateToSignup = { currentScreen = "signup" }
                         )
                         "signup" -> SignupScreen(

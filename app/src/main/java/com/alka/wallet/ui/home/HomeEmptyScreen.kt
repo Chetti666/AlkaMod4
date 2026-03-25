@@ -67,6 +67,11 @@ fun HomeEmptyScreen() {
     }
 }
 
+@Composable
+fun QuickActions() {
+    TODO("Not yet implemented")
+}
+
 @Preview(showBackground = true)
 @Composable
 fun HomeEmptyScreenPreview() {

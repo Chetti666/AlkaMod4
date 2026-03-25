@@ -26,10 +26,10 @@ fun AuthScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 32.dp),
+                .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(275.dp))
+            Spacer(modifier = Modifier.height(200.dp))
 
             LoginContent(
                 onLoginSuccess = onLoginSuccess,
@@ -51,7 +51,7 @@ fun LoginContent(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -72,7 +72,7 @@ fun LoginContent(
                 cursorColor = Color.White
             )
         )
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -93,12 +93,10 @@ fun LoginContent(
                 cursorColor = Color.White
             )
         )
-        Spacer(modifier = Modifier.height(220.dp))
+        Spacer(modifier = Modifier.height(80.dp))
         Button(
             onClick = {
-                if (email.isNotBlank() && password.isNotBlank()) {
-                    onLoginSuccess()
-                }
+                onLoginSuccess()
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -111,7 +109,7 @@ fun LoginContent(
         ) {
 
         }
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         TextButton(onClick = onNavigateToSignup) {
 
         }
