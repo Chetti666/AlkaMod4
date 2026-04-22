@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/requestMoney"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragmentos.RequestMoney"
+    android:orientation="vertical"
+    >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="Ingresar dinero"
+        android:background="@color/white"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/ToolbarTitle"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/black"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/blackOpacity"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constrainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24sp"
+            >
+
+            <ImageView
+                android:id="@+id/fotoPerfil"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:layout_constraintEnd_toStartOf="@+id/textNombreIngresoDinero"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="15dp"
+                app:srcCompat="@mipmap/img"
+                />
+
+            <TextView
+                android:id="@+id/textNombreIngresoDinero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:text="Reem Khaled"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="@+id/fotoPerfil"
+                app:layout_constraintStart_toEndOf="@+id/fotoPerfil"
+                android:layout_marginLeft="15dp"/>
+
+            <TextView
+                android:id="@+id/textEmailIngresoDinero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="reem_1993@gmail.com"
+                android:textColor="@color/semiblackOpacity"
+                app:layout_constraintBottom_toBottomOf="@+id/fotoPerfil"
+                app:layout_constraintTop_toBottomOf="@+id/textNombreIngresoDinero"
+                app:layout_constraintStart_toEndOf="@+id/fotoPerfil"
+                android:layout_marginLeft="15dp"/>
+
+            <LinearLayout
+                android:id="@+id/layoutMonto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="15sp"
+                app:layout_constraintTop_toBottomOf="@+id/fotoPerfil"
+                android:layout_marginTop="24sp"
+                android:layout_marginEnd="15sp">
+
+                <TextView
+                    android:id="@+id/textCantidadIngresar"
+                    style="@style/style_label_form"
+                    android:text="Cantidad a Igresar"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/editTextEmail"
+                    style="@style/style_input_form_ingresar_dinero"
+                    android:autofillHints="emailAddress"
+                    android:text="20.00"
+                    android:inputType="text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutNotas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="15sp"
+                android:layout_marginEnd="15sp"
+                android:layout_marginTop="32sp"
+                android:layout_marginBottom="32sp"
+                app:layout_constraintTop_toBottomOf="@+id/layoutMonto">
+
+                <TextView
+                    android:id="@+id/textNotasTransferencia"
+                    style="@style/style_label_form"
+                    android:text="Notas de transferencia"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/editTextNota"
+                    style="@style/style_text_form"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Agregar notas de transferencia"
+                    android:autofillHints="emailAddress"
+                    android:inputType="textMultiLine"
+                    android:lines="10" />
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btnCrearCuenta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/botonazul_style"
+                android:text="Ingresar Dinero"
+                android:drawableStart="@drawable/request_icon"
+                android:drawablePadding="4.38dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="85dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutNotas"
+                android:layout_marginTop="32dp"
+                />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </ScrollView>
+
+
+
+
+
+</LinearLayout>
